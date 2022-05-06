@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import { Button } from "@mui/material";
 
 export default function Books({book}) {
 
@@ -21,7 +22,7 @@ export default function Books({book}) {
                     <h5>Year: {book.year}</h5>
                 </>
             }
-            <button onClick={showMore}>{buttonText}</button>
+            <Button variant="outlined" onClick={showMore}>{buttonText}</Button>
         </div>
     )
 }

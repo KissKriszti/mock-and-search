@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import LoadingMask from './components/LoadingMask';
 import Books from './components/Books';
+import { Button, TextField } from "@mui/material";
 
 function App() {
 
   const [loading, setLoading] = useState(false);
   const [books, setBooks] = useState([]);
   const [input, setInput] =useState("");
+  const [sort, setSort] = useState("desc");
 
   async function fetchBooks() {
     const response = await fetch("http://www.testdomain.com/v1/api/books");
@@ -17,6 +19,11 @@ function App() {
     setLoading(false)
   };
 
+  function sortBooks() {
+    setBooks([...books.sort((a,b) => sort === "desc" ? b.year - a.year : a.year - b.year)])
+    setSort(sort === "desc" ? "asc" : "desc")
+  };
+
   useEffect(() => {
     setLoading(true)
     fetchBooks()
@@ -25,9 +32,12 @@ function App() {
   return (
     <div className="App">
       {loading ? <LoadingMask /> : 
-        books.map(book => book.title.toLowerCase().includes(input.toLowerCase()) && <Books key={book.title} book={book} />)
+        <>
+          <Button variant="contained" onClick={sortBooks}>Sort</Button>
+          <TextField id="outlined-basic" label="Outlined" variant="outlined" value={input} onChange={({target}) => setInput(target.value)} />
+          {books.map(book => book.title.toLowerCase().includes(input.toLowerCase()) && <Books key={book.title} book={book} />)}
+        </>
       }
-      <input placeholder="Search..." value={input} onChange={({target}) => setInput(target.value)} />
     </div>
   );
 };
