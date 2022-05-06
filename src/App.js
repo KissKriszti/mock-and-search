@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import LoadingMask from './components/LoadingMask';
+import Books from './components/Books';
 
 function App() {
+
+  const [loading, setLoading] = useState(false);
+  const [books, setBooks] = useState([]);
+
+  async function fetchBooks() {
+    const response = await fetch("http://www.testdomain.com/v1/api/books");
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+
+    setBooks(responseJSON);
+    setLoading(false)
+  };
+
+  useEffect(() => {
+    setLoading(true)
+    fetchBooks()
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {loading ? <LoadingMask /> : 
+        books.map(book => <Books key={book.title} book={book} />)
+      }
     </div>
   );
-}
+};
 
 export default App;
