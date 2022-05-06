@@ -6,7 +6,7 @@ function mockServer() {
             routes() {
                 this.urlPrefix = "http://www.testdomain.com";
                 this.namespace = "/v1/api";
-                this.timing = 5000;
+                this.timing = 2000;
 
                 this.get(
                     "/books",

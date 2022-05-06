@@ -6,6 +6,7 @@ function App() {
 
   const [loading, setLoading] = useState(false);
   const [books, setBooks] = useState([]);
+  const [input, setInput] =useState("");
 
   async function fetchBooks() {
     const response = await fetch("http://www.testdomain.com/v1/api/books");
@@ -24,8 +25,9 @@ function App() {
   return (
     <div className="App">
       {loading ? <LoadingMask /> : 
-        books.map(book => <Books key={book.title} book={book} />)
+        books.map(book => book.title.toLowerCase().includes(input.toLowerCase()) && <Books key={book.title} book={book} />)
       }
+      <input placeholder="Search..." value={input} onChange={({target}) => setInput(target.value)} />
     </div>
   );
 };
