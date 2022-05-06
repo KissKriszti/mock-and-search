@@ -6,7 +6,7 @@ export default function Books({book}) {
 
     function showMore() {
         if(buttonText === "Show More") {
-            setButtonText("Close")
+            setButtonText("Show Less")
         } else {
             setButtonText("Show More")
         }
@@ -15,7 +15,7 @@ export default function Books({book}) {
     return (
         <div>
             <h2>{book.title}</h2>
-            {buttonText === "Close" && 
+            {buttonText === "Show Less" && 
                 <>
                     <h5>Author: {book.author}</h5>
                     <h5>Year: {book.year}</h5>
